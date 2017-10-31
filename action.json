@@ -1,0 +1,25 @@
+{
+  "actions": [
+    {
+      "description": "Default Welcome Intent",
+      "name": "MAIN",
+      "fulfillment": {
+        "conversationName": "qivivo"
+      },
+      "intent": {
+        "name": "actions.intent.MAIN",
+        "trigger": {
+          "queryPatterns": [
+            "parle à qivivo"
+          ]
+        }
+      }
+    }
+  ],
+  "conversations": {
+    "qivivo": {
+      "name": "qivivo",
+      "url": "https://us-central1-qivivo-182513.cloudfunctions.net/qivivo"
+    }
+  }
+}
