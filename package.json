@@ -14,7 +14,10 @@
     "deploy": "gcloud beta functions deploy qivivo --trigger-http --stage-bucket gs://qivivo-182513"
   },
   "dependencies": {
-     "lodash": "4.x"
+     "https": "",
+     "http":"",
+     "querystring":"",
+     "fs":""
   },
   "devDependencies": {
     "semistandard": "^9.1.0"
