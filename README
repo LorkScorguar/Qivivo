@@ -1,0 +1,12 @@
+Qivivo application for Google Assistant   
+Use cloud Function
+Only getting temperature at this time
+
+
+To get it working, you must create a Config.json file with the following content:
+{"client_id":"YourClientID",
+"secret_id":"YourSecretID",
+"token":"YourToken",
+"refresh_token":"YourRefreshToken",
+"redirect_uri":"https://qivivo.com/authorize",
+"thermostat_id":"YourThermostatID"}
