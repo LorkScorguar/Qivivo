@@ -81,20 +81,23 @@ function getTemp(callback){
 
 
 exports.qivivo = function qivivo (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+	res.append("Google-Assistant-API-Version", "v1");
   getTemp(function(result){
     if (typeof result == "undefined") {
       refreshToken(function(newToken,newRefreshToken){
         updateConf(newToken,newRefreshToken)
         token=newToken
         getTemp(function(result){
-          res.send("La température est de "+result);
+          res.json("La température est de "+result);
         });
       });
     }
     else{
-      res.send("La température est de "+result);
+      res.json("La température est de "+result);
     }
   });
+  res.status(200).end();
 };
 
 /*getTemp(function(result){
