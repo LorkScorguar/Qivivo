@@ -24,7 +24,7 @@ function updateConf(newToken,newRefreshToken){
   config['refresh_token']=newRefreshToken;
   config['redirect_uri']=redirect_uri;
   config['thermostat_id']=thermostat_id;
-  config['proxy']=proxy;
+  //config['proxy']=proxy;
   var json=JSON.stringify(config);
   fs.writeFile('Config.json',json, 'utf8');
 }
@@ -55,8 +55,8 @@ function refreshToken(callback){
     res.on('end', (data) => {
       callback(jResp['access_token'],jResp['refresh_token']);
     });
-    req.write(data);
-  }).end();
+  })
+  req.write(data);
 }
 
 function getTemp(callback){
@@ -96,3 +96,20 @@ exports.qivivo = function qivivo (req, res) {
     }
   });
 };
+
+/*getTemp(function(result){
+  console.log(result);
+  if (typeof result == "undefined") {
+    console.log("Can't find temp, refreshing token");
+    refreshToken(function(newToken,newRefreshToken){
+      updateConf(newToken,newRefreshToken)
+      token=newToken
+      getTemp(function(result){
+        console.log("La température est de "+result);
+      });
+    });
+  }
+  else{
+    console.log("La température est de "+result);
+  }
+});*/
