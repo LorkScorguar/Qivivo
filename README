@@ -1,7 +1,11 @@
 Qivivo application for Google Assistant   
 Use cloud Function
 Only getting temperature at this time
-
+In future release, you will be able to
+get/set temp
+get humidity
+get/set current program
+set/unset holiday mode
 
 To get it working, you must create a Config.json file with the following content:
 {"client_id":"YourClientID",
