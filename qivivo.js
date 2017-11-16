@@ -80,21 +80,23 @@ function getTemp(callback){
 }
 
 
-function getInfo(type,callback){
-  if type=="getTemp"{
-    getTemp(function(result){
-      if (typeof result == "undefined") {
-        refreshToken(function(newToken,newRefreshToken){
-          updateConf(newToken,newRefreshToken)
-          token=newToken
-          getTemp(function(result){
-            callback("La température est de "+result);
+module.exports = {
+  getInfo: function (type,callback){
+    if (type=="getTemp") {
+      getTemp(function(result){
+        if (typeof result == "undefined") {
+          refreshToken(function(newToken,newRefreshToken){
+            updateConf(newToken,newRefreshToken);
+            token=newToken;
+            getTemp(function(result){
+              callback(result);
+            });
           });
-        });
-      }
-      else{
-        callback("La température est de "+result);
-      }
-    });
+        }
+        else{
+          callback(result);
+        }
+      });
+    }
   }
-};
+}
