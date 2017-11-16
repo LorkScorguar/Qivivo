@@ -34,11 +34,11 @@ exports.qivivo = functions.https.onRequest((request, response) => {
 
     function handleTextIntent() {
       var regexGetTemp = new RegExp("^quel.*temp[eéè]rature.*$");
-      const input = app.transform(app.getRawInput());
+      const input = app.getRawInput();
       if (regexGetTemp.test(input)) {
         qivivo.getInfo("getTemp",function(result){
           app.tell("La température est de "+result);
-        });)
+        });
       }
       else {
         app.tell("Je n'ai pas compris.");
