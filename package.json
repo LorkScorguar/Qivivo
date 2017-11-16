@@ -17,7 +17,8 @@
      "https": "",
      "http":"",
      "querystring":"",
-     "fs":""
+     "fs":"",
+     "actions-on-google": "^1.5.0",
   },
   "devDependencies": {
     "semistandard": "^9.1.0"
