@@ -33,23 +33,12 @@ exports.qivivo = functions.https.onRequest((request, response) => {
     }
 
     function handleTextIntent() {
-      var regex = new RegExp("^quel.*temp[eéè]rature.*$");
+      var regexGetTemp = new RegExp("^quel.*temp[eéè]rature.*$");
       const input = app.transform(app.getRawInput());
-      if (regex.test(input)) {
-        qivivo.getTemp(function(result){
-          if (typeof result == "undefined") {
-            qivivo.refreshToken(function(newToken,newRefreshToken){
-              qivivo.updateConf(newToken,newRefreshToken)
-              token=newToken
-              qivivo.getTemp(function(result){
-                app.tell("La température est de "+result);
-              });
-            });
-          }
-          else{
-            app.tell("La température est de "+result);
-          }
-        });
+      if (regexGetTemp.test(input)) {
+        qivivo.getInfo("getTemp",function(result){
+          app.tell("La température est de "+result);
+        });)
       }
       else {
         app.tell("Je n'ai pas compris.");
