@@ -8,6 +8,23 @@
       },
       "intent": {
         "name": "actions.intent.MAIN",
+        "trigger": {
+          "queryPatterns": [
+            "parle à qivivo",
+            "qivivo",
+            "demande à qivivo"
+          ]
+        }
+      }
+    },
+    {
+      "description": "Everything else",
+      "name": "else",
+      "fulfillment": {
+        "conversationName": "qivivo"
+      },
+      "intent": {
+        "name": "actions.intent.TEXT"
       }
     }
   ],
