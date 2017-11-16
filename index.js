@@ -3,7 +3,7 @@
 // use the firebase lib
 const functions = require('firebase-functions');
 const dependencies = require('./dependencies');
-const qivivo = require('qivivo.js');
+const qivivo = require('./qivivo');
 
 // use the actions sdk part of the actions on google lib
 var ActionsSdk = require('actions-on-google').ActionsSdkApp;
