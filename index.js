@@ -33,9 +33,9 @@ exports.qivivo = functions.https.onRequest((request, response) => {
     }
 
     function handleTextIntent() {
-      var regexGetTemp = new RegExp("^[Qq]uel.*temp[eéè]rature.*$");
-      var regexGetHum = new RegExp("^[Qq]quel.*humidit[eéè].*$");
-      var regexGetProg = new RegExp("^[Qq]quel.*programme.*$");
+      var regexGetTemp = new RegExp("^(Q|q)uel.*temp[eéè]rature.*$");
+      var regexGetHum = new RegExp("^(Q|q)uel.*humidit[eéè].*$");
+      var regexGetProg = new RegExp("^(Q|q)uel.*programme.*$");
       const input = app.getRawInput();
       if (regexGetTemp.test(input)) {
         qivivo.getInfo("getTemp",function(result){
