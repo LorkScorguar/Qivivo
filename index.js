@@ -32,8 +32,9 @@ exports.qivivo = functions.https.onRequest((request, response) => {
     }
 
     function handleTextIntent() {
-      re = new RegExp("^quel.*temp[eéè]rature.*$");
-      if (re.test(app.getRawInput())) {
+      var regex = new RegExp("^quel.*temp[eéè]rature.*$");
+      const input = app.transform(app.getRawInput());
+      if (regex.test(input)) {
         app.tell("Il fait 19 degrés dans le salon.");
       }
       else {
