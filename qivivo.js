@@ -114,7 +114,7 @@ function getCurrentProg(callback){
       jResp = JSON.parse(data);
     });
     res.on('end', (data) => {
-      callback(jResp['user_programs'][jResp['user_active_program_id']-1]['name']);
+      callback(jResp['user_programs'][parseInt(jResp['user_active_program_id'])-1]['name']);
     });
   }).end();
 }
