@@ -80,7 +80,7 @@ function getTemp(callback){
 }
 
 
-exports.qivivo = function qivivo (req, res) {
+/*exports.qivivo = function qivivo (req, res) {
   res.setHeader('Content-Type', 'application/json');
 	res.append("Google-Assistant-API-Version", "v1");
   getTemp(function(result){
@@ -98,4 +98,4 @@ exports.qivivo = function qivivo (req, res) {
     }
   });
   res.status(200).end();
-};
+};*/

@@ -3,6 +3,7 @@
 // use the firebase lib
 const functions = require('firebase-functions');
 const dependencies = require('./dependencies');
+const qivivo = require('qivivo.js');
 
 // use the actions sdk part of the actions on google lib
 var ActionsSdk = require('actions-on-google').ActionsSdkApp;
@@ -35,7 +36,20 @@ exports.qivivo = functions.https.onRequest((request, response) => {
       var regex = new RegExp("^quel.*temp[eéè]rature.*$");
       const input = app.transform(app.getRawInput());
       if (regex.test(input)) {
-        app.tell("Il fait 19 degrés dans le salon.");
+        qivivo.getTemp(function(result){
+          if (typeof result == "undefined") {
+            qivivo.refreshToken(function(newToken,newRefreshToken){
+              qivivo.updateConf(newToken,newRefreshToken)
+              token=newToken
+              qivivo.getTemp(function(result){
+                app.tell("La température est de "+result);
+              });
+            });
+          }
+          else{
+            app.tell("La température est de "+result);
+          }
+        });
       }
       else {
         app.tell("Je n'ai pas compris.");
