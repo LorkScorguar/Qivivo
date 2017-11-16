@@ -1,0 +1,38 @@
+{
+  "locale": "fr",
+  "actions": [
+    {
+      "description": "Default Welcome Intent",
+      "name": "MAIN",
+      "fulfillment": {
+        "conversationName": "qivivo"
+      },
+      "intent": {
+        "name": "actions.intent.MAIN",
+        "trigger": {
+          "queryPatterns": [
+            "parle à qivivo",
+            "qivivo",
+            "demande à qivivo"
+          ]
+        }
+      }
+    },
+    {
+      "description": "Everything else",
+      "name": "else",
+      "fulfillment": {
+        "conversationName": "qivivo"
+      },
+      "intent": {
+        "name": "actions.intent.TEXT"
+      }
+    }
+  ],
+  "conversations": {
+    "qivivo": {
+      "name": "qivivo",
+      "url": "https://us-central1-qivivo-182513.cloudfunctions.net/qivivo"
+    }
+  }
+}
