@@ -37,7 +37,7 @@ exports.qivivo = functions.https.onRequest((request, response) => {
       const input = app.getRawInput();
       if (regexGetTemp.test(input)) {
         qivivo.getInfo("getTemp",function(result){
-          app.tell("La température est de "+result);
+          app.tell("La température est de "+result+" degrés.");
         });
       }
       else {

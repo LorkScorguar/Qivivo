@@ -86,7 +86,7 @@ module.exports = {
       getTemp(function(result){
         if (typeof result == "undefined") {
           refreshToken(function(newToken,newRefreshToken){
-            updateConf(newToken,newRefreshToken);
+            //updateConf(newToken,newRefreshToken);
             token=newToken;
             getTemp(function(result){
               callback(result);
