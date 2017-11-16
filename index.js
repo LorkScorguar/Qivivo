@@ -1,118 +1,53 @@
-// Qivivo
-// Written by lorkscorguar@gmail.com
+"use strict";
 
-const https = require('https');
-const http = require('http');
-const parsedJSON = require('./Config.json');
-const querystring = require('querystring');
-const fs = require('fs');
+// use the firebase lib
+const functions = require('firebase-functions');
+const dependencies = require('./dependencies');
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";//to avoid certificate problem
+// use the actions sdk part of the actions on google lib
+var ActionsSdk = require('actions-on-google').ActionsSdkApp;
 
-var client_id=parsedJSON['client_id'];
-var secret_id=parsedJSON['secret_id'];
-var token=parsedJSON['token'];
-var refresh_token=parsedJSON['refresh_token'];
-var redirect_uri=parsedJSON['redirect_uri'];
-var thermostat_id=parsedJSON['thermostat_id'];
+/**
+ * This function is exposed via Firebase Cloud Functions.
+ * It determines the next busses leaving from the
+ * closest busstop to our home.
+ *
+ * You normally create one function for all intents. If you
+ * want to use more functions, you have to configure all
+ * those fullfillment endpoints.
+ *
+ * Note: Your fulfillment must respond within five seconds.
+ * For details see the blue box at the top of this page:
+ * https://developers.google.com/actions/apiai/deploy-fulfillment
+ */
+exports.qivivo = functions.https.onRequest((request, response) => {
 
-function updateConf(newToken,newRefreshToken){
-  var config = {};
-  config['client_id']=client_id;
-  config['secret_id']=secret_id;
-  config['token']=newToken;
-  config['refresh_token']=newRefreshToken;
-  config['redirect_uri']=redirect_uri;
-  config['thermostat_id']=thermostat_id;
-  //config['proxy']=proxy;
-  var json=JSON.stringify(config);
-  fs.writeFile('Config.json',json, 'utf8');
-}
+    // create an ActionsSdkApp object;
+    // indirection is used instead of constructor to
+    // be ease testing the functions
+    var app = dependencies.createAppObject(request, response);
 
-function refreshToken(callback){
-  data=querystring.stringify({
-    'client_id': client_id,
-    'grant_type': 'refresh_token',
-    'client_secret': secret_id,
-    'redirect_uri': redirect_uri,
-    'refresh_token': refresh_token,
-  });
-  var req = https.request({
-    host: 'account.qivivo.com',
-    path: "/oauth/token?grant_type=refresh_token&client_id="+client_id+"&client_secret="+secret_id+"&redirect_uri="+redirect_uri+"&refresh_token="+refresh_token,
-    agent: false,    // cannot use a default agent
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'content-length': Buffer.byteLength(data),
-      'authorization': 'Bearer '+token,
+    function handleMainIntent() {
+      app.ask("Que voulez-vous savoir?");
     }
-  }, function(res) {
-    res.setEncoding('utf8');
-    res.on('data', (data) => {
-      jResp = JSON.parse(data);
-    });
-    res.on('end', (data) => {
-      callback(jResp['access_token'],jResp['refresh_token']);
-    });
-  })
-  req.write(data);
-}
 
-function getTemp(callback){
-  var req = https.get({
-    host: 'data.qivivo.com',
-    path: '/api/v2/devices/thermostats/'+thermostat_id+'/temperature',
-    agent: false,    // cannot use a default agent
-    headers: {
-      'content-type': 'application/json',
-      'authorization': 'Bearer '+token,
+    function handleTextIntent() {
+      re = new RegExp("^quel.*temp[eéè]rature.*$");
+      if (re.test(app.getRawInput())) {
+        app.tell("Il fait 19 degrés dans le salon.");
+      }
+      app.tell("Ravi de vous avoir aidé!");
     }
-  }, function(res) {
-    res.setEncoding('utf8');
-    res.on('data', (data) => {
-      jResp = JSON.parse(data);
-    });
-    res.on('end', (data) => {
-      callback(jResp['temperature']);
-    });
-  }).end();
-}
 
+    // finally: create map and handle request
+    // map all intents to specific functions
+    let actionMap = new Map();
+    actionMap.set(app.StandardIntents.MAIN, handleMainIntent);
+    // anything follow-up requests will trigger the next intent.
+    // Be sure to include it.
+    actionMap.set(app.StandardIntents.TEXT, handleTextIntent);
 
-exports.qivivo = function qivivo (req, res) {
-  res.setHeader('Content-Type', 'application/json');
-	res.append("Google-Assistant-API-Version", "v1");
-  getTemp(function(result){
-    if (typeof result == "undefined") {
-      refreshToken(function(newToken,newRefreshToken){
-        updateConf(newToken,newRefreshToken)
-        token=newToken
-        getTemp(function(result){
-          res.json("La température est de "+result);
-        });
-      });
-    }
-    else{
-      res.json("La température est de "+result);
-    }
-  });
-  res.status(200).end();
-};
-
-/*getTemp(function(result){
-  console.log(result);
-  if (typeof result == "undefined") {
-    console.log("Can't find temp, refreshing token");
-    refreshToken(function(newToken,newRefreshToken){
-      updateConf(newToken,newRefreshToken)
-      token=newToken
-      getTemp(function(result){
-        console.log("La température est de "+result);
-      });
-    });
-  }
-  else{
-    console.log("La température est de "+result);
-  }
-});*/
+    // apply this map and let the sdk parse and handle the request
+    // and your responses
+    app.handleRequest(actionMap);
+});
