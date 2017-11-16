@@ -36,7 +36,9 @@ exports.qivivo = functions.https.onRequest((request, response) => {
       if (re.test(app.getRawInput())) {
         app.tell("Il fait 19 degrés dans le salon.");
       }
-      app.tell("Ravi de vous avoir aidé!");
+      else {
+        app.tell("Je n'ai pas compris.");
+      }
     }
 
     // finally: create map and handle request
