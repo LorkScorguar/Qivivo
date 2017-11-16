@@ -10,6 +10,7 @@ get/set current program
 set/unset holiday mode
 Set temporary temp
 Keep token/refresh Token to improve querying
+Handle Oneshot call
 
 To get it working, you must create a Config.json file with the following content:
 {"client_id":"YourClientID",
