@@ -35,6 +35,7 @@ exports.qivivo = functions.https.onRequest((request, response) => {
     function handleTextIntent() {
       var regexGetTemp = new RegExp("^quel.*temp[eéè]rature.*$");
       var regexGetHum = new RegExp("^quel.*humidit[eéè].*$");
+      var regexGetProg = new RegExp("^quel.*programme.*$");
       const input = app.getRawInput();
       if (regexGetTemp.test(input)) {
         qivivo.getInfo("getTemp",function(result){
@@ -44,6 +45,11 @@ exports.qivivo = functions.https.onRequest((request, response) => {
       else if (regexGetHum.test(input)) {
         qivivo.getInfo("getHum",function(result){
           app.tell("Le taux d'humidité est de "+result+" pour cent.");
+        });
+      }
+      else if (regexGetProg.test(input)) {
+        qivivo.getInfo("getProg",function(result){
+          app.tell("Le programme actuel est "+result+".");
         });
       }
       else {
