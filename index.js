@@ -34,10 +34,16 @@ exports.qivivo = functions.https.onRequest((request, response) => {
 
     function handleTextIntent() {
       var regexGetTemp = new RegExp("^quel.*temp[eéè]rature.*$");
+      var regexGetHum = new RegExp("^quel.*humidit[eéè].*$");
       const input = app.getRawInput();
       if (regexGetTemp.test(input)) {
         qivivo.getInfo("getTemp",function(result){
           app.tell("La température est de "+result+" degrés.");
+        });
+      }
+      else if (regexGetHum.test(input)) {
+        qivivo.getInfo("getHum",function(result){
+          app.tell("Le taux d'humidité est de "+result+" pour cent.");
         });
       }
       else {
