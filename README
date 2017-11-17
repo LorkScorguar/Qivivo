@@ -2,13 +2,14 @@ Qivivo application for Google Assistant
 Use cloud Function
 
 What's working:
-get temp
-get humidity
-simple error management
+Get temp
+Get humidity
+Get current program
+Simple error management
 
 Working on:
-get/set current program
-set/unset holiday mode
+Set program
+Set/unset holiday mode
 Set temporary temp
 Keep token/refresh Token to improve querying
 Handle Oneshot call
