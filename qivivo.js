@@ -143,7 +143,7 @@ function setCurrentProg(progName,callback){
     headers: {
       'content-type': 'application/json',
       'authorization': 'Bearer '+token,
-    }
+    },
     method: 'PUT',
   }, function(res) {
     res.setEncoding('utf8');
@@ -214,12 +214,12 @@ module.exports = {
       });
     }
     else if (type=="setProg") {
-      setCurrentProg(progName,function(result){
+      setCurrentProg(data,function(result){
         if (typeof result == "undefined") {
           refreshToken(function(newToken,newRefreshToken){
             //updateConf(newToken,newRefreshToken);
             token=newToken;
-            setCurrentProg(progName,function(result){
+            setCurrentProg(data,function(result){
               callback(result);
             });
           });
