@@ -125,10 +125,10 @@ function getCurrentProg(callback){
     });
     res.on('end', (data) => {
       try {
-        console.log(jResp);
         callback(jResp['user_programs'][parseInt(jResp['user_active_program_id'])-1]['name']);
       }
       catch (error) {
+        console.log(error);
         callback("error");
       }
     });
@@ -136,7 +136,7 @@ function getCurrentProg(callback){
 }
 
 function setCurrentProg(progName,callback){
-  var req = https.get({
+  var req = https.request({
     host: 'data.qivivo.com',
     path: '/api/v2/devices/thermostats/'+thermostat_id+'/programs/'+progName+'/active',
     agent: false,    // cannot use a default agent
