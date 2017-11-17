@@ -132,7 +132,7 @@ function getCurrentProg(callback){
         callback("error");
       }
     });
-  });
+  }).end();
 }
 
 function setCurrentProg(progName,callback){
@@ -159,7 +159,7 @@ function setCurrentProg(progName,callback){
         callback("error");
       }
     });
-  });
+  }).end();
 }
 
 
