@@ -101,7 +101,7 @@ function getHumidity(callback){
 
 function getCurrentProg(err,callback){
   if (err) {
-    callback("Une erreur est survenue")
+    console.log(err);
   }
   var req = https.get({
     host: 'data.qivivo.com',

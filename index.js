@@ -49,7 +49,11 @@ exports.qivivo = functions.https.onRequest((request, response) => {
       }
       else if (regexGetProg.test(input)) {
         qivivo.getInfo("getProg",function(result){
-          app.tell("Le programme actuel est "+result+".");
+          try {
+            app.tell("Le programme actuel est "+result+".");
+          } catch (err) {
+            app.tell("Une erreur est survenue.");
+          }
         });
       }
       else {
