@@ -99,7 +99,10 @@ function getHumidity(callback){
   }).end();
 }
 
-function getCurrentProg(callback){
+function getCurrentProg(err,callback){
+  if (err) {
+    callback("Une erreur est survenue")
+  }
   var req = https.get({
     host: 'data.qivivo.com',
     path: '/api/v2/devices/thermostats/'+thermostat_id+'/programs',
