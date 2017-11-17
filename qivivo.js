@@ -118,7 +118,7 @@ function getCurrentProg(callback){
         console.log(jResp);
         callback(jResp['user_programs'][parseInt(jResp['user_active_program_id'])-1]['name']);
       }
-      catch {
+      catch (error) {
         callback("error");
       }
     });
