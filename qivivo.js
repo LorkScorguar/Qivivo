@@ -74,7 +74,12 @@ function getTemp(callback){
       jResp = JSON.parse(data);
     });
     res.on('end', (data) => {
-      callback(jResp['temperature']);
+      try {
+        callback(jResp['temperature']);
+      }
+      catch (error) {
+        callback("error");
+      }
     });
   }).end();
 }
@@ -94,7 +99,12 @@ function getHumidity(callback){
       jResp = JSON.parse(data);
     });
     res.on('end', (data) => {
-      callback(jResp['humidity']);
+      try {
+        callback(jResp['humidity']);
+      }
+      catch (error) {
+        callback("error");
+      }
     });
   }).end();
 }

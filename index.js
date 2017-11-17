@@ -39,12 +39,20 @@ exports.qivivo = functions.https.onRequest((request, response) => {
       const input = app.getRawInput();
       if (regexGetTemp.test(input)) {
         qivivo.getInfo("getTemp",function(result){
-          app.tell("La température est de "+result+" degrés.");
+          if (typeof result == "undefined") {
+            app.tell("Une erreur est survenue");
+          } else {
+            app.tell("La température est de "+result+" degrés.");
+          }
         });
       }
       else if (regexGetHum.test(input)) {
         qivivo.getInfo("getHum",function(result){
-          app.tell("Le taux d'humidité est de "+result+" pour cent.");
+          if (typeof result == "undefined") {
+            app.tell("Une erreur est survenue");
+          } else {
+            app.tell("Le taux d'humidité est de "+result+" pour cent.");
+          }
         });
       }
       else if (regexGetProg.test(input)) {
