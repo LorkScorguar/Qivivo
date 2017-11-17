@@ -36,9 +36,10 @@ exports.qivivo = functions.https.onRequest((request, response) => {
       var regexGetTemp = new RegExp("^(Q|q)uel.*temp[eéè]rature.*$");
       var regexGetHum = new RegExp("^(Q|q)uel.*humidit[eéè].*$");
       var regexGetProg = new RegExp("^(Q|q)uel.*programme.*$");
+      var regexSetProg = new RegExp("^([Mm]et|[Ll]ance).*programme.*$");
       const input = app.getRawInput();
       if (regexGetTemp.test(input)) {
-        qivivo.getInfo("getTemp",function(result){
+        qivivo.getInfo("getTemp",'',function(result){
           if (typeof result == "undefined") {
             app.tell("Une erreur est survenue");
           } else {
@@ -47,7 +48,7 @@ exports.qivivo = functions.https.onRequest((request, response) => {
         });
       }
       else if (regexGetHum.test(input)) {
-        qivivo.getInfo("getHum",function(result){
+        qivivo.getInfo("getHum",'',function(result){
           if (typeof result == "undefined") {
             app.tell("Une erreur est survenue");
           } else {
@@ -56,11 +57,25 @@ exports.qivivo = functions.https.onRequest((request, response) => {
         });
       }
       else if (regexGetProg.test(input)) {
-        qivivo.getInfo("getProg",function(err,result){
+        qivivo.getInfo("getProg",'',function(err,result){
           if (typeof result == "undefined") {
             app.tell("Une erreur est survenue");
           } else {
             app.tell("Le programme actuel est "+result+".");
+          }
+        });
+      }
+      else if (regexSetProg.test(input)) {
+        var list = input.split(" ");
+        var progName = list[list.length-1];
+        if (progName.slice(-1,progName.length)=="."){
+          progName=progName.slice(0,-1);
+        }
+        qivivo.getInfo("setProg",progName,function(err,result){
+          if (typeof result == "undefined") {
+            app.tell("Une erreur est survenue");
+          } else {
+            app.tell("Le programme "+progName+" a été lancé.");
           }
         });
       }
