@@ -167,7 +167,7 @@ module.exports = {
   getInfo: function (type,data,callback){
     if (type=="getTemp") {
       getTemp(function(result){
-        if (typeof result == "undefined") {
+        if (result == "error") {
           refreshToken(function(newToken,newRefreshToken){
             //updateConf(newToken,newRefreshToken);
             token=newToken;
@@ -183,7 +183,7 @@ module.exports = {
     }
     else if (type=="getHum") {
       getHumidity(function(result){
-        if (typeof result == "undefined") {
+        if (result == "error") {
           refreshToken(function(newToken,newRefreshToken){
             //updateConf(newToken,newRefreshToken);
             token=newToken;
@@ -199,7 +199,7 @@ module.exports = {
     }
     else if (type=="getProg") {
       getCurrentProg(function(result){
-        if (typeof result == "undefined") {
+        if (result == "error") {
           refreshToken(function(newToken,newRefreshToken){
             //updateConf(newToken,newRefreshToken);
             token=newToken;
@@ -215,7 +215,7 @@ module.exports = {
     }
     else if (type=="setProg") {
       setCurrentProg(data,function(result){
-        if (typeof result == "undefined") {
+        if (result == "error") {
           refreshToken(function(newToken,newRefreshToken){
             //updateConf(newToken,newRefreshToken);
             token=newToken;
