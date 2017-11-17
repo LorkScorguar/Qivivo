@@ -48,11 +48,13 @@ function refreshToken(callback){
       'authorization': 'Bearer '+token,
     }
   }, function(res) {
+    var chunks = "";
     res.setEncoding('utf8');
     res.on('data', (data) => {
-      jResp = JSON.parse(data);
+      chunks+=data;
     });
     res.on('end', (data) => {
+      jResp=JSON.parse(chunks);
       callback(jResp['access_token'],jResp['refresh_token']);
     });
   })
@@ -69,12 +71,14 @@ function getTemp(callback){
       'authorization': 'Bearer '+token,
     }
   }, function(res) {
+    var chunks = "";
     res.setEncoding('utf8');
     res.on('data', (data) => {
-      jResp = JSON.parse(data);
+      chunks+=data;
     });
     res.on('end', (data) => {
       try {
+        jResp=JSON.parse(chunks);
         callback(jResp['temperature']);
       }
       catch (error) {
@@ -94,12 +98,14 @@ function getHumidity(callback){
       'authorization': 'Bearer '+token,
     }
   }, function(res) {
+    var chunks = "";
     res.setEncoding('utf8');
     res.on('data', (data) => {
-      jResp = JSON.parse(data);
+      chunks+=data;
     });
     res.on('end', (data) => {
       try {
+        jResp=JSON.parse(chunks);
         callback(jResp['humidity']);
       }
       catch (error) {
@@ -119,12 +125,15 @@ function getCurrentProg(callback){
       'authorization': 'Bearer '+token,
     }
   }, function(res) {
+    var chunks = "";
     res.setEncoding('utf8');
     res.on('data', (data) => {
-      jResp = JSON.parse(data);
+      //jResp = JSON.parse(data);
+      chunks+=data;
     });
     res.on('end', (data) => {
       try {
+        jResp=JSON.parse(chunks);
         callback(jResp['user_programs'][parseInt(jResp['user_active_program_id'])-1]['name']);
       }
       catch (error) {
@@ -146,12 +155,14 @@ function setCurrentProg(progName,callback){
     },
     method: 'PUT',
   }, function(res) {
+    var chunks = "";
     res.setEncoding('utf8');
     res.on('data', (data) => {
-      jResp = JSON.parse(data);
+      chunks+=data;
     });
     res.on('end', (data) => {
       try {
+        jResp=JSON.parse(chunks);
         console.log(jResp);
         callback("ok");
       }
