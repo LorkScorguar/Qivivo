@@ -1,9 +1,10 @@
-Qivivo application for Google Assistant   
+Qivivo application for Google Assistant
 Use cloud Function
 
 What's working:
 get temp
 get humidity
+simple error management
 
 Working on:
 get/set current program
