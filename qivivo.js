@@ -37,6 +37,7 @@ function refreshToken(callback){
     'redirect_uri': redirect_uri,
     'refresh_token': refresh_token,
   });
+  var chunks = "";
   var req = https.request({
     host: 'account.qivivo.com',
     path: "/oauth/token?grant_type=refresh_token&client_id="+client_id+"&client_secret="+secret_id+"&redirect_uri="+redirect_uri+"&refresh_token="+refresh_token,
@@ -48,7 +49,6 @@ function refreshToken(callback){
       'authorization': 'Bearer '+token,
     }
   }, function(res) {
-    var chunks = "";
     res.setEncoding('utf8');
     res.on('data', (data) => {
       chunks+=data;
@@ -62,6 +62,7 @@ function refreshToken(callback){
 }
 
 function getTemp(callback){
+  var chunks = "";
   var req = https.get({
     host: 'data.qivivo.com',
     path: '/api/v2/devices/thermostats/'+thermostat_id+'/temperature',
@@ -71,7 +72,6 @@ function getTemp(callback){
       'authorization': 'Bearer '+token,
     }
   }, function(res) {
-    var chunks = "";
     res.setEncoding('utf8');
     res.on('data', (data) => {
       chunks+=data;
@@ -89,6 +89,7 @@ function getTemp(callback){
 }
 
 function getHumidity(callback){
+  var chunks = "";
   var req = https.get({
     host: 'data.qivivo.com',
     path: '/api/v2/devices/thermostats/'+thermostat_id+'/humidity',
@@ -98,7 +99,6 @@ function getHumidity(callback){
       'authorization': 'Bearer '+token,
     }
   }, function(res) {
-    var chunks = "";
     res.setEncoding('utf8');
     res.on('data', (data) => {
       chunks+=data;
@@ -116,6 +116,7 @@ function getHumidity(callback){
 }
 
 function getCurrentProg(callback){
+  var chunks = "";
   var req = https.get({
     host: 'data.qivivo.com',
     path: '/api/v2/devices/thermostats/'+thermostat_id+'/programs',
@@ -125,7 +126,6 @@ function getCurrentProg(callback){
       'authorization': 'Bearer '+token,
     }
   }, function(res) {
-    var chunks = "";
     res.setEncoding('utf8');
     res.on('data', (data) => {
       //jResp = JSON.parse(data);
@@ -145,6 +145,7 @@ function getCurrentProg(callback){
 }
 
 function setCurrentProg(progName,callback){
+  var chunks = "";
   var req = https.request({
     host: 'data.qivivo.com',
     path: '/api/v2/devices/thermostats/'+thermostat_id+'/programs/'+progName+'/active',
@@ -155,7 +156,6 @@ function setCurrentProg(progName,callback){
     },
     method: 'PUT',
   }, function(res) {
-    var chunks = "";
     res.setEncoding('utf8');
     res.on('data', (data) => {
       chunks+=data;
@@ -178,7 +178,7 @@ module.exports = {
   getInfo: function (type,data,callback){
     if (type=="getTemp") {
       getTemp(function(result){
-        if (result == "error") {
+        if (result == "error" || typeof result=="undefined") {
           refreshToken(function(newToken,newRefreshToken){
             //updateConf(newToken,newRefreshToken);
             token=newToken;
@@ -194,7 +194,7 @@ module.exports = {
     }
     else if (type=="getHum") {
       getHumidity(function(result){
-        if (result == "error") {
+        if (result == "error" || typeof result=="undefined") {
           refreshToken(function(newToken,newRefreshToken){
             //updateConf(newToken,newRefreshToken);
             token=newToken;
@@ -210,7 +210,7 @@ module.exports = {
     }
     else if (type=="getProg") {
       getCurrentProg(function(result){
-        if (result == "error") {
+        if (result == "error" || typeof result=="undefined") {
           refreshToken(function(newToken,newRefreshToken){
             //updateConf(newToken,newRefreshToken);
             token=newToken;
@@ -226,7 +226,7 @@ module.exports = {
     }
     else if (type=="setProg") {
       setCurrentProg(data,function(result){
-        if (result == "error") {
+        if (result == "error" || typeof result=="undefined") {
           refreshToken(function(newToken,newRefreshToken){
             //updateConf(newToken,newRefreshToken);
             token=newToken;

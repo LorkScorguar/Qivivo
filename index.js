@@ -57,7 +57,7 @@ exports.qivivo = functions.https.onRequest((request, response) => {
         });
       }
       else if (regexGetProg.test(input)) {
-        qivivo.getInfo("getProg",'',function(err,result){
+        qivivo.getInfo("getProg",'',function(result){
           if (typeof result == "undefined") {
             app.tell("Une erreur est survenue");
           } else {
@@ -71,7 +71,7 @@ exports.qivivo = functions.https.onRequest((request, response) => {
         if (progName.slice(-1,progName.length)=="."){
           progName=progName.slice(0,-1);
         }
-        qivivo.getInfo("setProg",progName,function(err,result){
+        qivivo.getInfo("setProg",progName,function(result){
           if (typeof result == "undefined") {
             app.tell("Une erreur est survenue");
           } else {
