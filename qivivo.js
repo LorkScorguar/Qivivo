@@ -153,7 +153,7 @@ function setCurrentProg(progName,callback){
     res.on('end', (data) => {
       try {
         console.log(jResp);
-        callback(jResp['user_programs'][parseInt(jResp['user_active_program_id'])-1]['name']);
+        callback("ok");
       }
       catch (error) {
         callback("error");
