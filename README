@@ -22,3 +22,15 @@ Get token and thermostat_id and create a Config.json file with the following con
 "refresh_token":"YourRefreshToken",
 "redirect_uri":"https://qivivo.com/authorize",
 "thermostat_id":"YourThermostatID"}
+
+Create a project on Google cloud and add enable following api:
+- Cloud Functions
+- Actions
+- Cloud Storage
+and deploy your code
+gcloud beta functions deploy qivivo --trigger-http --stage-bucket gs://<project-id>
+
+Create an Actions on Google project and deploy your project
+gactions test --action_package action.json --preview_mins 1234 --project <project-id>
+
+Now you can test your qivivo application for Google Assistant
