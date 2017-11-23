@@ -216,7 +216,7 @@ function setCurrentProg(progName,callback){
   getProgs(function(res){
     try {
       for (var i=0;i<res['user_programs'].length;i++){
-        if (res['user_programs'][i]['name']==progName) {
+        if (res['user_programs'][i]['name'].toLowerCase()==progName.toLowerCase()) {
           progID=res['user_programs'][i]['id'];
           break;
         }
