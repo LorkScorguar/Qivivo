@@ -162,9 +162,12 @@ function setCurrentProg(progName,callback){
     });
     res.on('end', (data) => {
       try {
-        jResp=JSON.parse(chunks);
-        console.log(jResp);
-        callback("ok");
+        if (jResp['errors'] || jResp['message']=='Unexpected error') {
+          callback('error');
+        }
+        else {
+          callback("ok");
+        }
       }
       catch (error) {
         callback("error");
