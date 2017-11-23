@@ -5,10 +5,10 @@ What's working:
 Get temp
 Get humidity
 Get current program
+Set program
 Simple error management
 
 Working on:
-Set program
 Set/unset holiday mode
 Set temporary temp
 Keep token/refresh Token to improve querying
