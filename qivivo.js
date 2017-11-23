@@ -149,7 +149,6 @@ function getProgs(callback){
   var req = https.get({
     host: 'data.qivivo.com',
     path: '/api/v2/devices/thermostats/'+thermostat_id+'/programs',
-    socket: socket, // using a tunnel
     agent: false,    // cannot use a default agent
     headers: {
       'content-type': 'application/json',
@@ -183,7 +182,6 @@ function defineProg(progID,callback){
   var req = https.get({
     host: 'data.qivivo.com',
     path: '/api/v2/devices/thermostats/'+thermostat_id+'/programs/'+progID+'/active',
-    socket: socket, // using a tunnel
     agent: false,    // cannot use a default agent
     headers: {
       'content-type': 'application/json',
