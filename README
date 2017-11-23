@@ -14,7 +14,8 @@ Set temporary temp
 Keep token/refresh Token to improve querying
 Handle Oneshot call
 
-To get it working, you must create a Config.json file with the following content:
+Create an app here: https://dev.qivivo.com/register
+Get token and thermostat_id and create a Config.json file with the following content:
 {"client_id":"YourClientID",
 "secret_id":"YourSecretID",
 "token":"YourToken",
