@@ -144,38 +144,93 @@ function getCurrentProg(callback){
   }).end();
 }
 
-function setCurrentProg(progName,callback){
+function getProgs(callback){
   var chunks = "";
-  var req = https.request({
+  var req = https.get({
     host: 'data.qivivo.com',
-    path: '/api/v2/devices/thermostats/'+thermostat_id+'/programs/'+progName+'/active',
+    path: '/api/v2/devices/thermostats/'+thermostat_id+'/programs',
+    socket: socket, // using a tunnel
     agent: false,    // cannot use a default agent
     headers: {
       'content-type': 'application/json',
       'authorization': 'Bearer '+token,
-    },
-    method: 'PUT',
+    }
   }, function(res) {
     res.setEncoding('utf8');
     res.on('data', (data) => {
+      //jResp = JSON.parse(data);
       chunks+=data;
     });
     res.on('end', (data) => {
+      jResp=JSON.parse(chunks);
       try {
         if (jResp['errors'] || jResp['message']=='Unexpected error') {
           callback('error');
         }
         else {
-          callback("ok");
+          callback(jResp);
         }
-      }
-      catch (error) {
+      } catch (error) {
+        //console.log(error);
         callback("error");
       }
     });
   }).end();
 }
 
+function defineProg(progID,callback){
+  var chunks = "";
+  var req = https.get({
+    host: 'data.qivivo.com',
+    path: '/api/v2/devices/thermostats/'+thermostat_id+'/programs/'+progID+'/active',
+    socket: socket, // using a tunnel
+    agent: false,    // cannot use a default agent
+    headers: {
+      'content-type': 'application/json',
+      'authorization': 'Bearer '+token,
+    },
+    method: 'PUT'
+  }, function(res) {
+    res.setEncoding('utf8');
+    res.on('data', (data) => {
+      //jResp = JSON.parse(data);
+      chunks+=data;
+    });
+    res.on('end', (data) => {
+      jResp=JSON.parse(chunks);
+      try {
+        if (jResp['errors'] || jResp['message']=='Unexpected error') {
+          callback('error');
+        }
+        else {
+          callback(jResp);
+        }
+      } catch (error) {
+        //console.log(error);
+        callback("error");
+      }
+    });
+  }).end();
+}
+
+function setCurrentProg(progName,callback){
+  progID=0;
+  getProgs(function(res){
+    try {
+      for (var i=0;i<res['user_programs'].length;i++){
+        if (res['user_programs'][i]['name']==progName) {
+          progID=res['user_programs'][i]['id'];
+          break;
+        }
+      }
+      defineProg(progID,function(res){
+        callback(res);
+      });
+    } catch (error){
+      callback('error');
+    }
+  });
+}
 
 module.exports = {
   getInfo: function (type,data,callback){

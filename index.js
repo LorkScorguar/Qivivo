@@ -75,7 +75,11 @@ exports.qivivo = functions.https.onRequest((request, response) => {
           if (typeof result == "undefined") {
             app.tell("Une erreur est survenue");
           } else {
-            app.tell("Le programme "+progName+" a été lancé.");
+            if result['message']=='The program has been successfully changed'{
+              app.tell("Le programme "+progName+" a été lancé.");
+            } else {
+              app.tell("Le programme "+progName+" n'a pas pu être lancé.");
+            }
           }
         });
       }
