@@ -29,7 +29,14 @@ exports.qivivo = functions.https.onRequest((request, response) => {
     var app = dependencies.createAppObject(request, response);
 
     function handleMainIntent() {
-      app.ask("Que voulez-vous savoir?");
+      const input = app.getRawInput();
+      //We don't have directly the question
+      if (input.slice(-9,input.length)=="ermostat." || input.slice(-9,input.length)=="hermostat"){
+        app.ask("Que voulez-vous savoir?");
+      }
+      else {
+        handleTextIntent();
+      }
     }
 
     function handleTextIntent() {

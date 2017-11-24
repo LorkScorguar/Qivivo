@@ -7,12 +7,12 @@ Get humidity
 Get current program
 Set program
 Simple error management
+Handle Oneshot call
 
 Working on:
 Set/unset holiday mode
 Set temporary temp
 Keep token/refresh Token to improve querying
-Handle Oneshot call
 
 Create an app here: https://dev.qivivo.com/register
 Get token and thermostat_id and create a Config.json file with the following content:
