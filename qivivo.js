@@ -61,6 +61,39 @@ function refreshToken(callback){
   req.write(data);
 }
 
+function getThermostatID(callback){
+  var chunks = "";
+  var req = https.get({
+    host: 'data.qivivo.com',
+    path: '/api/v2/devices/',
+    agent: false,    // cannot use a default agent
+    headers: {
+      'content-type': 'application/json',
+      'authorization': 'Bearer '+token,
+    }
+  }, function(res) {
+    res.setEncoding('utf8');
+    res.on('data', (data) => {
+      chunks+=data;
+    });
+    res.on('end', (data) => {
+      try {
+        jResp=JSON.parse(chunks);
+        for (var i=0;i<res['devices'].length;i++){
+          if (res['devices'][i]['type']=="thermostat") {
+            thermostat_id=res['devices'][i]['uuid'];
+            callback(thermostat_id);
+            break;
+          }
+        }
+      }
+      catch (error) {
+        callback("error");
+      }
+    });
+  }).end();
+}
+
 function getTemp(callback){
   var chunks = "";
   var req = https.get({
